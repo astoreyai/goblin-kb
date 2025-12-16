@@ -242,15 +242,14 @@ Requires the `com.termux.permission.RUN_COMMAND` permission.
 
 ## Fallback Behavior
 
-When Termux is not installed, buttons fall back to KYMERA agent broadcasts:
-- Spawn buttons → `SpawnAgent` broadcast
+When Termux is not installed, buttons fall back to local agent broadcasts:
+- Spawn buttons → `SpawnAgent` broadcast to `dev.goblin.agent`
 - Kill → Context reset
 - Build → Execute broadcast
 
 ## Related Projects
 
 - [Goblin Forge](https://github.com/astoreyai/goblin-forge) - Multi-agent CLI orchestrator
-- [KYMERA](https://github.com/astoreyai/kymera) - AI assistant ecosystem
 
 ## License
 

@@ -189,47 +189,47 @@
     },
     "ai": {
       "icon": "ai",
-      "description": "KYMERA AI commands",
+      "description": "Goblin AI commands",
       "commands": [
         {
           "command": "/ai explain",
           "description": "Explain selected code",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "explain",
           "type": "code"
         },
         {
           "command": "/ai fix",
           "description": "Fix code issues",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "fix",
           "type": "code"
         },
         {
           "command": "/ai refactor",
           "description": "Refactor selected code",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "refactor",
           "type": "code"
         },
         {
           "command": "/ai test",
           "description": "Generate tests",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "test",
           "type": "code"
         },
         {
           "command": "/ai docs",
           "description": "Generate documentation",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "docs",
           "type": "code"
         },
         {
           "command": "/ai ask",
           "description": "Ask AI anything",
-          "action": "send_to_kymera",
+          "action": "send_to_local_agent",
           "value": "ask",
           "type": "chat"
         }
