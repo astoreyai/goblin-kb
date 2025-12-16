@@ -2,7 +2,7 @@
   "name": "code",
   "description": "Developer-optimized layout with quick symbols and paired brackets",
   "auto_detect_packages": [
-    "dev.kymera.app",
+    "dev.goblin.agent",
     "com.aide.ui",
     "io.spck",
     "com.foxdebug.acode"

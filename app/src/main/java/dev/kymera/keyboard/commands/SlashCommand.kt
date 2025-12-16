@@ -72,7 +72,7 @@ data class CommandConfig(
     fun toSlashAction(): SlashAction = when (action) {
         "insert_text" -> SlashAction.InsertText(value)
         "insert_template" -> SlashAction.InsertTemplate(value)
-        "send_to_local_agent", "send_to_kymera" -> SlashAction.SendToLocalAgent(value, type)
+        "send_to_local_agent" -> SlashAction.SendToLocalAgent(value, type)
         else -> SlashAction.InsertText(value)
     }
 }

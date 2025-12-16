@@ -1,8 +1,8 @@
-# KB Keyboard Architecture
+# Goblin KB Architecture
 
 ## Overview
 
-KB is a developer-focused Android keyboard with context-aware layouts, slash commands, and KYMERA integration. The architecture follows patterns from the ky/ codebase.
+Goblin KB is a developer-focused Android keyboard with context-aware layouts, slash commands, and **Goblin Forge** integration via Termux. The architecture prioritizes agentic control of multi-agent CLI orchestration from mobile.
 
 ## Core Principles
 
@@ -10,6 +10,7 @@ KB is a developer-focused Android keyboard with context-aware layouts, slash com
 2. **Lazy Loading** - Components initialized on-demand
 3. **Context Detection** - Auto-switch layouts based on detected app
 4. **Feature Flags** - All features toggleable via settings
+5. **Termux-First** - Primary integration via Termux RUN_COMMAND
 
 ## Module Structure
 
@@ -18,7 +19,9 @@ dev.kymera.keyboard/
 ├── core/           # InputMethodService + key handling
 ├── layouts/        # Layout management + JSON loading
 ├── commands/       # Slash command registry
-├── communication/  # KYMERA app broadcasts
+├── communication/  # TermuxBridge + local agent fallback
+├── agents/         # Agent registry + command bus
+├── rendering/      # JARVIS glow effects
 ├── ui/             # Settings activity + themes
 └── settings/       # SharedPreferences management
 ```
@@ -28,7 +31,7 @@ dev.kymera.keyboard/
 ```
 Priority (highest to lowest):
 1. Runtime Settings (SharedPreferences)
-2. App Broadcasts (KYMERA app)
+2. App Broadcasts (external control)
 3. App Resources (res/raw/*.json)
 4. Built-in Defaults (hardcoded)
 ```
@@ -48,14 +51,14 @@ Priority (highest to lowest):
 │  │                  KBKeyboardView                      │ │
 │  │  - Canvas rendering                                  │ │
 │  │  - Touch handling                                    │ │
-│  │  - Swipe detection                                   │ │
+│  │  - JARVIS glow effects                              │ │
 │  └─────────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────────┘
           │                                      │
           ▼                                      ▼
    ┌──────────────┐                    ┌──────────────────┐
-   │ InputConn.   │                    │ KymeraBridge     │
-   │ (text input) │                    │ (AI requests)    │
+   │ InputConn.   │                    │ TermuxBridge     │
+   │ (text input) │                    │ (gforge cmds)    │
    └──────────────┘                    └──────────────────┘
 ```
 
@@ -118,22 +121,35 @@ Priority (highest to lowest):
 | `switch_layout` | Change layout | `"action_value": "symbols"` |
 | `slash_command` | Execute command | `"action_value": "/"` |
 | `control_key` | Terminal control | `"action_value": "C-c"` |
-| `send_to_kymera` | AI request | `"action_value": "explain"` |
+| `send_to_local_agent` | Local agent request | `"action_value": "explain"` |
 
-## KYMERA Integration
+## Goblin Forge Integration
 
-### Outbound (Keyboard → KYMERA)
+### Primary: Termux (Keyboard → gforge)
 
 ```kotlin
-KymeraBridge.sendAiRequest(
+TermuxBridge.spawnGoblin(
     context = context,
-    text = selectedCode,
-    type = "explain",
-    inputContext = "CODE"
+    name = "coder",
+    agent = "claude",
+    project = "~/projects/myapp"
 )
+// Executes: gforge spawn coder --agent claude --project ~/projects/myapp
 ```
 
-### Inbound (KYMERA → Keyboard)
+### Fallback: Local Agent (when Termux unavailable)
+
+```kotlin
+LocalAgentBridge.sendAgentRequest(
+    context = context,
+    agentId = "coding",
+    command = "explain",
+    commandContext = commandContext
+)
+// Broadcasts to: dev.goblin.agent
+```
+
+### Inbound (External → Keyboard)
 
 ```kotlin
 // Broadcast actions:
@@ -141,6 +157,22 @@ dev.kymera.keyboard.SET_MODE        // Switch layout
 dev.kymera.keyboard.INSERT_TEXT     // Insert at cursor
 dev.kymera.keyboard.UPDATE_COMMANDS // Reload commands
 ```
+
+## JARVIS Layout
+
+The JARVIS layout provides direct Goblin Forge control:
+
+| Button | gforge Command |
+|--------|---------------|
+| CODE | `gforge spawn coder --agent claude` |
+| RSRCH | `gforge spawn researcher --agent gemini` |
+| QUANT | `gforge spawn quant --agent claude` |
+| TOP | `gforge top` |
+| ATT | `gforge attach <active>` |
+| KILL | `gforge kill <active>` |
+| LOGS | `gforge logs <active>` |
+| BUILD | `gforge run build` |
+| TEST | `gforge run test` |
 
 ## Performance Targets
 
