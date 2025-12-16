@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="layouts">
+        <item>QWERTY (Standard)</item>
+        <item>Code (Developer)</item>
+        <item>Terminal</item>
+    </string-array>
+
+    <string-array name="layout_values">
+        <item>qwerty</item>
+        <item>code</item>
+        <item>terminal</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>System</item>
+    </string-array>
+</resources>
