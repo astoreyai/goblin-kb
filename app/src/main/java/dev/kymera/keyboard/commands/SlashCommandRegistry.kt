@@ -144,8 +144,8 @@ class SlashCommandRegistry(private val context: Context) {
                 )
                 CommandResult.InsertText(injectedTemplate)
             }
-            is SlashAction.SendToKymera -> {
-                // Extract context for KYMERA commands
+            is SlashAction.SendToLocalAgent -> {
+                // Extract context for local agent commands
                 val commandContext = contextInjector.extractContext(
                     inputConnection = inputConnection,
                     inputContext = inputContext,
@@ -153,7 +153,7 @@ class SlashCommandRegistry(private val context: Context) {
                     activeAgentId = activeAgentId,
                     semanticLayer = semanticLayer
                 )
-                CommandResult.SendToKymera(action.command, action.type, commandContext)
+                CommandResult.SendToLocalAgent(action.command, action.type, commandContext)
             }
         }
     }

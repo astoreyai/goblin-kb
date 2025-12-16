@@ -81,7 +81,7 @@ class KBKeyboardService : InputMethodService() {
         val layoutName = when (currentContext) {
             InputContext.TERMINAL -> "terminal"
             InputContext.CODE -> "code"
-            InputContext.KYMERA_CHAT -> "code"
+            InputContext.AGENT_CHAT -> "code"
             InputContext.GENERAL -> "qwerty"
         }
         layoutManager.loadLayout(layoutName)
@@ -109,7 +109,7 @@ class KBKeyboardService : InputMethodService() {
             // Commands and layouts
             is KeyAction.SlashCommand -> handleSlashCommand(action.command)
             is KeyAction.SwitchLayout -> handleLayoutSwitch(action.layout)
-            is KeyAction.SendToKymera -> sendToKymera(action.text, action.type)
+            is KeyAction.SendToLocalAgent -> sendToLocalAgent(action.text, action.type)
             is KeyAction.ControlKey -> handleControlKey(action.key)
 
             // Theme and layout cycling
@@ -237,15 +237,15 @@ class KBKeyboardService : InputMethodService() {
         val result = commandRegistry.execute(command, currentContext)
         when (result) {
             is CommandResult.InsertText -> commitText(result.text)
-            is CommandResult.SendToKymera -> sendToKymera(result.text, result.type)
+            is CommandResult.SendToLocalAgent -> sendToLocalAgent(result.text, result.type)
             is CommandResult.ShowPicker -> keyboardView?.showCommandPicker(result.commands)
             is CommandResult.NotFound -> {} // Silently ignore
         }
     }
 
-    private fun sendToKymera(text: String, type: String) {
-        // Broadcast to KYMERA app
-        val intent = android.content.Intent("dev.kymera.app.AI_REQUEST").apply {
+    private fun sendToLocalAgent(text: String, type: String) {
+        // Broadcast to local agent app (fallback when Termux unavailable)
+        val intent = android.content.Intent("dev.goblin.agent.AI_REQUEST").apply {
             putExtra("text", text)
             putExtra("type", type)
             putExtra("context", currentContext.name)
@@ -411,7 +411,7 @@ class KBKeyboardService : InputMethodService() {
 
     private fun handleExecuteRun() {
         val context = buildCommandContext()
-        sendToKymera(context.getRelevantText() ?: "", "execute")
+        sendToLocalAgent(context.getRelevantText() ?: "", "execute")
         Toast.makeText(this, "Executing...", Toast.LENGTH_SHORT).show()
     }
 
@@ -482,7 +482,7 @@ class KBKeyboardService : InputMethodService() {
 
     private fun handleGforgeSpawn(name: String, agent: String, project: String) {
         if (!TermuxBridge.isTermuxInstalled(this)) {
-            // Fall back to KYMERA agent system
+            // Fall back to local agent system
             handleSpawnAgent(agent, true)
             return
         }
@@ -582,8 +582,8 @@ class KBKeyboardService : InputMethodService() {
             is AgentResult.Display -> {
                 Toast.makeText(this, result.content, Toast.LENGTH_LONG).show()
             }
-            is AgentResult.SendToKymera -> {
-                sendToKymera(result.text, result.type)
+            is AgentResult.SendToLocalAgent -> {
+                sendToLocalAgent(result.text, result.type)
             }
             is AgentResult.StoreMemory -> {
                 // Already stored by command bus
@@ -596,7 +596,7 @@ class KBKeyboardService : InputMethodService() {
     }
 
     /**
-     * Called by KymeraBroadcastReceiver to set mode externally.
+     * Called by KeyboardBroadcastReceiver to set mode externally.
      */
     fun setMode(mode: String) {
         currentContext = InputContext.valueOf(mode.uppercase())
@@ -605,7 +605,7 @@ class KBKeyboardService : InputMethodService() {
     }
 
     /**
-     * Called by KymeraBroadcastReceiver to insert text.
+     * Called by KeyboardBroadcastReceiver to insert text.
      */
     fun insertText(text: String) {
         commitText(text)

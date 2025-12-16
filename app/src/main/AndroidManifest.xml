@@ -53,9 +53,9 @@
             android:theme="@style/Theme.KB"
             android:parentActivityName=".ui.SettingsActivity" />
 
-        <!-- Broadcast Receiver for KYMERA communication -->
+        <!-- Broadcast Receiver for external keyboard control -->
         <receiver
-            android:name=".communication.KymeraBroadcastReceiver"
+            android:name=".communication.KeyboardBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="dev.kymera.keyboard.SET_MODE" />

@@ -6,14 +6,14 @@ import android.content.Intent
 import dev.kymera.keyboard.core.KBKeyboardService
 
 /**
- * Receives broadcasts from KYMERA app for keyboard control.
+ * Receives broadcasts from external apps for keyboard control.
  *
  * Supported actions:
  * - SET_MODE: Switch keyboard layout (terminal, code, general)
  * - INSERT_TEXT: Insert text at cursor
  * - UPDATE_COMMANDS: Reload custom commands
  */
-class KymeraBroadcastReceiver : BroadcastReceiver() {
+class KeyboardBroadcastReceiver : BroadcastReceiver() {
 
     companion object {
         // Actions

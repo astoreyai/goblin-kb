@@ -78,10 +78,10 @@
                 android:text="Insert template (use ${1:placeholder})" />
 
             <RadioButton
-                android:id="@+id/radioSendToKymera"
+                android:id="@+id/radioSendToLocalAgent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send to KYMERA AI" />
+                android:text="Send to local agent (fallback)" />
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout

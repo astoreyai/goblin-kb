@@ -107,8 +107,8 @@ class CommandEditorActivity : AppCompatActivity() {
                     dialogBinding.radioInsertTemplate.isChecked = true
                     dialogBinding.editValue.setText(action.template)
                 }
-                is SlashAction.SendToKymera -> {
-                    dialogBinding.radioSendToKymera.isChecked = true
+                is SlashAction.SendToLocalAgent -> {
+                    dialogBinding.radioSendToLocalAgent.isChecked = true
                     dialogBinding.editValue.setText(action.command)
                 }
             }
@@ -131,7 +131,7 @@ class CommandEditorActivity : AppCompatActivity() {
                 val action = when {
                     dialogBinding.radioInsertText.isChecked -> SlashAction.InsertText(value)
                     dialogBinding.radioInsertTemplate.isChecked -> SlashAction.InsertTemplate(value)
-                    dialogBinding.radioSendToKymera.isChecked -> SlashAction.SendToKymera(value)
+                    dialogBinding.radioSendToLocalAgent.isChecked -> SlashAction.SendToLocalAgent(value)
                     else -> SlashAction.InsertText(value)
                 }
 

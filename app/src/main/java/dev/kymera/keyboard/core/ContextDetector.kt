@@ -30,8 +30,8 @@ class ContextDetector {
         "com.microsoft.vscode"  // VS Code Server via web
     )
 
-    // KYMERA app package
-    private val kymeraPackage = "dev.kymera.app"
+    // Local agent app package (fallback when Termux unavailable)
+    private val localAgentPackage = "dev.goblin.agent"
 
     /**
      * Detect context from EditorInfo provided by the input field.
@@ -42,8 +42,8 @@ class ContextDetector {
         val packageName = editorInfo.packageName ?: return InputContext.GENERAL
 
         return when {
-            // KYMERA app with specific field detection
-            packageName == kymeraPackage -> detectKymeraContext(editorInfo)
+            // Local agent app with specific field detection
+            packageName == localAgentPackage -> detectAgentContext(editorInfo)
 
             // Terminal apps
             packageName in terminalApps -> InputContext.TERMINAL
@@ -59,7 +59,7 @@ class ContextDetector {
         }
     }
 
-    private fun detectKymeraContext(editorInfo: EditorInfo): InputContext {
+    private fun detectAgentContext(editorInfo: EditorInfo): InputContext {
         // Check field hint or ID for context
         val hint = editorInfo.hintText?.toString()?.lowercase() ?: ""
         val fieldId = editorInfo.fieldId
@@ -67,8 +67,8 @@ class ContextDetector {
         return when {
             hint.contains("terminal") -> InputContext.TERMINAL
             hint.contains("code") || hint.contains("editor") -> InputContext.CODE
-            hint.contains("chat") -> InputContext.KYMERA_CHAT
-            else -> InputContext.KYMERA_CHAT
+            hint.contains("chat") -> InputContext.AGENT_CHAT
+            else -> InputContext.AGENT_CHAT
         }
     }
 
@@ -96,7 +96,7 @@ class ContextDetector {
         return when (packageName) {
             in terminalApps -> InputContext.TERMINAL
             in codeEditorApps -> InputContext.CODE
-            kymeraPackage -> InputContext.KYMERA_CHAT
+            localAgentPackage -> InputContext.AGENT_CHAT
             else -> null
         }
     }

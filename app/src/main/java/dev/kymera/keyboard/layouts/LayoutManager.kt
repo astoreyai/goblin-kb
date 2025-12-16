@@ -459,7 +459,7 @@ class LayoutManager(private val context: Context) {
      * - Row 5: Bottom row with forge commands
      *
      * Integration: Uses TermuxBridge to run gforge commands in Termux.
-     * Falls back to KYMERA agent system if Termux not installed.
+     * Falls back to local agent system if Termux not installed.
      */
     private fun createJarvisLayout(): KeyLayout = KeyLayout(
         name = LAYOUT_JARVIS,

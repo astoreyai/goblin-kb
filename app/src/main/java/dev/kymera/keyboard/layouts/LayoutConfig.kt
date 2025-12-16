@@ -63,7 +63,7 @@ data class KeyConfig(
         "switch_layout", "switchLayout" -> KeyAction.SwitchLayout(actionValue)
         "slash_command", "slashCommand" -> KeyAction.SlashCommand(actionValue)
         "control_key", "controlKey" -> KeyAction.ControlKey(actionValue)
-        "send_to_kymera", "sendToKymera" -> KeyAction.SendToKymera(actionValue)
+        "send_to_local_agent", "sendToLocalAgent", "send_to_kymera", "sendToKymera" -> KeyAction.SendToLocalAgent(actionValue)
         else -> KeyAction.InsertText(value)
     }
 }

@@ -42,21 +42,21 @@ class SlashCommandTest {
     }
 
     @Test
-    fun `CommandConfig creates SendToKymera action`() {
+    fun `CommandConfig creates SendToLocalAgent action`() {
         val config = CommandConfig(
             command = "/ai explain",
             description = "Explain code",
-            action = "send_to_kymera",
+            action = "send_to_local_agent",
             value = "explain",
             type = "code"
         )
 
         val action = config.toSlashAction()
 
-        assertTrue(action is SlashAction.SendToKymera)
-        val kymeraAction = action as SlashAction.SendToKymera
-        assertEquals("explain", kymeraAction.command)
-        assertEquals("code", kymeraAction.type)
+        assertTrue(action is SlashAction.SendToLocalAgent)
+        val localAgentAction = action as SlashAction.SendToLocalAgent
+        assertEquals("explain", localAgentAction.command)
+        assertEquals("code", localAgentAction.type)
     }
 
     @Test
