@@ -1,0 +1,281 @@
+{
+  "version": 1,
+  "categories": {
+    "git": {
+      "icon": "git",
+      "description": "Git version control commands",
+      "commands": [
+        {
+          "command": "/git status",
+          "description": "Show working tree status",
+          "action": "insert_text",
+          "value": "git status"
+        },
+        {
+          "command": "/git add",
+          "description": "Stage all changes",
+          "action": "insert_text",
+          "value": "git add ."
+        },
+        {
+          "command": "/git commit",
+          "description": "Commit with message",
+          "action": "insert_template",
+          "value": "git commit -m \"${1:message}\""
+        },
+        {
+          "command": "/git push",
+          "description": "Push to remote",
+          "action": "insert_text",
+          "value": "git push"
+        },
+        {
+          "command": "/git pull",
+          "description": "Pull from remote",
+          "action": "insert_text",
+          "value": "git pull"
+        },
+        {
+          "command": "/git log",
+          "description": "Show commit log (oneline)",
+          "action": "insert_text",
+          "value": "git log --oneline -20"
+        },
+        {
+          "command": "/git diff",
+          "description": "Show changes",
+          "action": "insert_text",
+          "value": "git diff"
+        },
+        {
+          "command": "/git branch",
+          "description": "List branches",
+          "action": "insert_text",
+          "value": "git branch -a"
+        },
+        {
+          "command": "/git checkout",
+          "description": "Switch branch",
+          "action": "insert_template",
+          "value": "git checkout ${1:branch}"
+        },
+        {
+          "command": "/git stash",
+          "description": "Stash changes",
+          "action": "insert_text",
+          "value": "git stash"
+        }
+      ]
+    },
+    "docker": {
+      "icon": "docker",
+      "description": "Docker container commands",
+      "commands": [
+        {
+          "command": "/docker ps",
+          "description": "List running containers",
+          "action": "insert_text",
+          "value": "docker ps"
+        },
+        {
+          "command": "/docker images",
+          "description": "List images",
+          "action": "insert_text",
+          "value": "docker images"
+        },
+        {
+          "command": "/docker compose up",
+          "description": "Start compose services",
+          "action": "insert_text",
+          "value": "docker compose up -d"
+        },
+        {
+          "command": "/docker compose down",
+          "description": "Stop compose services",
+          "action": "insert_text",
+          "value": "docker compose down"
+        },
+        {
+          "command": "/docker logs",
+          "description": "View container logs",
+          "action": "insert_template",
+          "value": "docker logs -f ${1:container}"
+        },
+        {
+          "command": "/docker exec",
+          "description": "Execute in container",
+          "action": "insert_template",
+          "value": "docker exec -it ${1:container} ${2:sh}"
+        },
+        {
+          "command": "/docker build",
+          "description": "Build image",
+          "action": "insert_template",
+          "value": "docker build -t ${1:name} ."
+        }
+      ]
+    },
+    "python": {
+      "icon": "python",
+      "description": "Python development commands",
+      "commands": [
+        {
+          "command": "/py venv",
+          "description": "Activate virtual environment",
+          "action": "insert_text",
+          "value": "source venv/bin/activate"
+        },
+        {
+          "command": "/py run",
+          "description": "Run Python script",
+          "action": "insert_template",
+          "value": "python ${1:script.py}"
+        },
+        {
+          "command": "/py pip install",
+          "description": "Install package",
+          "action": "insert_template",
+          "value": "pip install ${1:package}"
+        },
+        {
+          "command": "/py pytest",
+          "description": "Run pytest",
+          "action": "insert_text",
+          "value": "pytest -v"
+        },
+        {
+          "command": "/py req",
+          "description": "Install from requirements",
+          "action": "insert_text",
+          "value": "pip install -r requirements.txt"
+        }
+      ]
+    },
+    "node": {
+      "icon": "nodejs",
+      "description": "Node.js development commands",
+      "commands": [
+        {
+          "command": "/npm install",
+          "description": "Install dependencies",
+          "action": "insert_text",
+          "value": "npm install"
+        },
+        {
+          "command": "/npm run",
+          "description": "Run script",
+          "action": "insert_template",
+          "value": "npm run ${1:script}"
+        },
+        {
+          "command": "/npm start",
+          "description": "Start application",
+          "action": "insert_text",
+          "value": "npm start"
+        },
+        {
+          "command": "/npm test",
+          "description": "Run tests",
+          "action": "insert_text",
+          "value": "npm test"
+        },
+        {
+          "command": "/npm build",
+          "description": "Build project",
+          "action": "insert_text",
+          "value": "npm run build"
+        }
+      ]
+    },
+    "ai": {
+      "icon": "ai",
+      "description": "KYMERA AI commands",
+      "commands": [
+        {
+          "command": "/ai explain",
+          "description": "Explain selected code",
+          "action": "send_to_kymera",
+          "value": "explain",
+          "type": "code"
+        },
+        {
+          "command": "/ai fix",
+          "description": "Fix code issues",
+          "action": "send_to_kymera",
+          "value": "fix",
+          "type": "code"
+        },
+        {
+          "command": "/ai refactor",
+          "description": "Refactor selected code",
+          "action": "send_to_kymera",
+          "value": "refactor",
+          "type": "code"
+        },
+        {
+          "command": "/ai test",
+          "description": "Generate tests",
+          "action": "send_to_kymera",
+          "value": "test",
+          "type": "code"
+        },
+        {
+          "command": "/ai docs",
+          "description": "Generate documentation",
+          "action": "send_to_kymera",
+          "value": "docs",
+          "type": "code"
+        },
+        {
+          "command": "/ai ask",
+          "description": "Ask AI anything",
+          "action": "send_to_kymera",
+          "value": "ask",
+          "type": "chat"
+        }
+      ]
+    },
+    "shell": {
+      "icon": "terminal",
+      "description": "Common shell commands",
+      "commands": [
+        {
+          "command": "/ls",
+          "description": "List directory",
+          "action": "insert_text",
+          "value": "ls -la"
+        },
+        {
+          "command": "/cd",
+          "description": "Change directory",
+          "action": "insert_template",
+          "value": "cd ${1:path}"
+        },
+        {
+          "command": "/mkdir",
+          "description": "Create directory",
+          "action": "insert_template",
+          "value": "mkdir -p ${1:name}"
+        },
+        {
+          "command": "/grep",
+          "description": "Search in files",
+          "action": "insert_template",
+          "value": "grep -r \"${1:pattern}\" ${2:.}"
+        },
+        {
+          "command": "/find",
+          "description": "Find files",
+          "action": "insert_template",
+          "value": "find . -name \"${1:pattern}\""
+        },
+        {
+          "command": "/ssh",
+          "description": "SSH connect",
+          "action": "insert_template",
+          "value": "ssh ${1:user}@${2:host}"
+        }
+      ]
+    }
+  }
+}

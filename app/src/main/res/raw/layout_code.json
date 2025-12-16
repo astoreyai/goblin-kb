@@ -1,0 +1,70 @@
+{
+  "name": "code",
+  "description": "Developer-optimized layout with quick symbols and paired brackets",
+  "auto_detect_packages": [
+    "dev.kymera.app",
+    "com.aide.ui",
+    "io.spck",
+    "com.foxdebug.acode"
+  ],
+  "rows": [
+    {
+      "name": "quick_symbols",
+      "keys": [
+        { "label": "{}", "action": "insert_paired", "action_value": "{,}" },
+        { "label": "()", "action": "insert_paired", "action_value": "(,)" },
+        { "label": "[]", "action": "insert_paired", "action_value": "[,]" },
+        { "label": "<>", "action": "insert_paired", "action_value": "<,>" },
+        { "label": "\"\"", "action": "insert_paired", "action_value": "\",\"" },
+        { "label": "''", "action": "insert_paired", "action_value": "','" },
+        { "label": "=>", "value": "=>" },
+        { "label": "->", "value": "->" },
+        { "label": "::", "value": "::" },
+        { "label": "//", "value": "//" }
+      ]
+    },
+    {
+      "name": "numbers",
+      "keys": [
+        { "label": "1" }, { "label": "2" }, { "label": "3" },
+        { "label": "4" }, { "label": "5" }, { "label": "6" },
+        { "label": "7" }, { "label": "8" }, { "label": "9" }, { "label": "0" }
+      ]
+    },
+    {
+      "name": "qwerty_top",
+      "keys": [
+        { "label": "q" }, { "label": "w" }, { "label": "e" },
+        { "label": "r" }, { "label": "t" }, { "label": "y" },
+        { "label": "u" }, { "label": "i" }, { "label": "o" }, { "label": "p" }
+      ]
+    },
+    {
+      "name": "qwerty_middle",
+      "keys": [
+        { "label": "a" }, { "label": "s" }, { "label": "d" },
+        { "label": "f" }, { "label": "g" }, { "label": "h" },
+        { "label": "j" }, { "label": "k" }, { "label": "l" }, { "label": ";" }
+      ]
+    },
+    {
+      "name": "qwerty_bottom",
+      "keys": [
+        { "label": "TAB", "action": "insert", "action_value": "\t", "is_special": true },
+        { "label": "z" }, { "label": "x" }, { "label": "c" },
+        { "label": "v" }, { "label": "b" }, { "label": "n" }, { "label": "m" },
+        { "label": "DEL", "action": "delete", "is_special": true }
+      ]
+    },
+    {
+      "name": "bottom_row",
+      "keys": [
+        { "label": "SYM", "action": "switch_layout", "action_value": "symbols", "is_special": true },
+        { "label": "/cmd", "action": "slash_command", "action_value": "/", "is_special": true },
+        { "label": "SPACE", "value": " " },
+        { "label": "_" }, { "label": "=" },
+        { "label": "ENTER", "action": "enter", "is_special": true }
+      ]
+    }
+  ]
+}
