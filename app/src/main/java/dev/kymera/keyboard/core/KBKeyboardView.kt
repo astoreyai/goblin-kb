@@ -373,7 +373,7 @@ class KBKeyboardView @JvmOverloads constructor(
 
     /**
      * Draw JARVIS-style glow effects for special keys.
-     * Supports both KYMERA agents and Goblin Forge goblins.
+     * Supports both local agents and Goblin Forge goblins.
      */
     private fun drawJarvisGlow(
         canvas: Canvas,
@@ -438,7 +438,7 @@ class KBKeyboardView @JvmOverloads constructor(
                 }
             }
 
-            // === LEGACY KYMERA AGENT KEYS ===
+            // === LEGACY LOCAL AGENT KEYS ===
             is KeyAction.SpawnAgent -> {
                 val isActive = activeAgentId == action.agentId
                 glowRenderer.drawAgentKeyGlow(canvas, rect, action.agentId, isActive || isPressed)

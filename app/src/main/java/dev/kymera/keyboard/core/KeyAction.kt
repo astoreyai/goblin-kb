@@ -38,8 +38,8 @@ sealed class KeyAction {
     /** Switch to different layout */
     data class SwitchLayout(val layout: String) : KeyAction()
 
-    /** Send text to KYMERA app */
-    data class SendToKymera(val text: String, val type: String = "command") : KeyAction()
+    /** Send text to local agent app (fallback when Termux unavailable) */
+    data class SendToLocalAgent(val text: String, val type: String = "command") : KeyAction()
 
     /** Terminal control key (Ctrl+C, Esc, etc.) */
     data class ControlKey(val key: String) : KeyAction()
@@ -181,7 +181,7 @@ sealed class KeyAction {
  */
 sealed class CommandResult {
     data class InsertText(val text: String) : CommandResult()
-    data class SendToKymera(
+    data class SendToLocalAgent(
         val text: String,
         val type: String,
         val context: CommandContext? = null

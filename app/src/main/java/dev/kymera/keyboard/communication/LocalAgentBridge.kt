@@ -11,22 +11,25 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /**
- * Bridge for bidirectional communication with KYMERA app.
+ * Bridge for bidirectional communication with local agent app (fallback).
  * Supports sending agent commands and receiving responses.
+ *
+ * Note: Primary agent integration is via Goblin Forge/Termux.
+ * This bridge is for local Android app agent fallback.
  */
-object KymeraBridge {
+object LocalAgentBridge {
 
-    // KYMERA app package
-    private const val KYMERA_PACKAGE = "dev.kymera.app"
+    // Local agent app package (fallback when Termux not available)
+    private const val LOCAL_AGENT_PACKAGE = "dev.goblin.agent"
 
-    // Actions we can send to KYMERA
-    private const val ACTION_AI_REQUEST = "dev.kymera.app.AI_REQUEST"
-    private const val ACTION_VOICE_INPUT = "dev.kymera.app.VOICE_INPUT"
-    private const val ACTION_AGENT_REQUEST = "dev.kymera.app.AGENT_REQUEST"
-    private const val ACTION_CONTEXT_EXPAND = "dev.kymera.app.CONTEXT_EXPAND"
-    private const val ACTION_CONTEXT_RESET = "dev.kymera.app.CONTEXT_RESET"
+    // Actions we can send to local agent
+    private const val ACTION_AI_REQUEST = "dev.goblin.agent.AI_REQUEST"
+    private const val ACTION_VOICE_INPUT = "dev.goblin.agent.VOICE_INPUT"
+    private const val ACTION_AGENT_REQUEST = "dev.goblin.agent.AGENT_REQUEST"
+    private const val ACTION_CONTEXT_EXPAND = "dev.goblin.agent.CONTEXT_EXPAND"
+    private const val ACTION_CONTEXT_RESET = "dev.goblin.agent.CONTEXT_RESET"
 
-    // Actions we receive from KYMERA
+    // Actions we receive from local agent
     const val ACTION_AGENT_RESPONSE = "dev.kymera.keyboard.AGENT_RESPONSE"
     const val ACTION_INSERT_TEXT = "dev.kymera.keyboard.INSERT_TEXT"
     const val ACTION_REPLACE_TEXT = "dev.kymera.keyboard.REPLACE_TEXT"
@@ -57,14 +60,14 @@ object KymeraBridge {
     private var requestCounter = 0L
 
     /**
-     * Register a response listener to receive agent responses from KYMERA.
+     * Register a response listener to receive agent responses.
      */
     fun setResponseListener(listener: (AgentBridgeResponse) -> Unit) {
         responseListener = listener
     }
 
     /**
-     * Create a broadcast receiver for KYMERA responses.
+     * Create a broadcast receiver for agent responses.
      */
     fun createResponseReceiver(): BroadcastReceiver {
         return object : BroadcastReceiver() {
@@ -118,7 +121,7 @@ object KymeraBridge {
     }
 
     /**
-     * Send AI request to KYMERA app.
+     * Send AI request to local agent app.
      */
     fun sendAiRequest(
         context: Context,
@@ -127,7 +130,7 @@ object KymeraBridge {
         inputContext: String
     ) {
         val intent = Intent(ACTION_AI_REQUEST).apply {
-            setPackage(KYMERA_PACKAGE)
+            setPackage(LOCAL_AGENT_PACKAGE)
             putExtra(EXTRA_TEXT, text)
             putExtra(EXTRA_TYPE, type)
             putExtra(EXTRA_CONTEXT, inputContext)
@@ -136,7 +139,7 @@ object KymeraBridge {
     }
 
     /**
-     * Send agent request to KYMERA app with full context.
+     * Send agent request to local agent app with full context.
      *
      * @param context Android context
      * @param agentId The agent to invoke (coding, research, quant, orchestrator)
@@ -155,7 +158,7 @@ object KymeraBridge {
         val requestId = generateRequestId()
 
         val intent = Intent(ACTION_AGENT_REQUEST).apply {
-            setPackage(KYMERA_PACKAGE)
+            setPackage(LOCAL_AGENT_PACKAGE)
             putExtra(EXTRA_REQUEST_ID, requestId)
             putExtra(EXTRA_AGENT_ID, agentId)
             putExtra(EXTRA_COMMAND, command)
@@ -174,7 +177,7 @@ object KymeraBridge {
      */
     fun expandContext(context: Context, additionalContext: String) {
         val intent = Intent(ACTION_CONTEXT_EXPAND).apply {
-            setPackage(KYMERA_PACKAGE)
+            setPackage(LOCAL_AGENT_PACKAGE)
             putExtra(EXTRA_TEXT, additionalContext)
         }
         context.sendBroadcast(intent)
@@ -185,27 +188,27 @@ object KymeraBridge {
      */
     fun resetContext(context: Context) {
         val intent = Intent(ACTION_CONTEXT_RESET).apply {
-            setPackage(KYMERA_PACKAGE)
+            setPackage(LOCAL_AGENT_PACKAGE)
         }
         context.sendBroadcast(intent)
     }
 
     /**
-     * Request voice input from KYMERA.
+     * Request voice input from local agent.
      */
     fun requestVoiceInput(context: Context) {
         val intent = Intent(ACTION_VOICE_INPUT).apply {
-            setPackage(KYMERA_PACKAGE)
+            setPackage(LOCAL_AGENT_PACKAGE)
         }
         context.sendBroadcast(intent)
     }
 
     /**
-     * Check if KYMERA app is installed.
+     * Check if local agent app is installed.
      */
-    fun isKymeraInstalled(context: Context): Boolean {
+    fun isLocalAgentInstalled(context: Context): Boolean {
         return try {
-            context.packageManager.getPackageInfo(KYMERA_PACKAGE, 0)
+            context.packageManager.getPackageInfo(LOCAL_AGENT_PACKAGE, 0)
             true
         } catch (e: Exception) {
             false
@@ -218,7 +221,7 @@ object KymeraBridge {
 }
 
 /**
- * Response from KYMERA agent bridge.
+ * Response from agent bridge.
  */
 data class AgentBridgeResponse(
     val requestId: String,

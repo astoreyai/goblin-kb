@@ -13,6 +13,6 @@ enum class InputContext {
     /** Code editor context */
     CODE,
 
-    /** KYMERA app chat/editor */
-    KYMERA_CHAT
+    /** Agent app chat/editor (Goblin Agent, etc.) */
+    AGENT_CHAT
 }

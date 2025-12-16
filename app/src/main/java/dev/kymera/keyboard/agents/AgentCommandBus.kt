@@ -37,12 +37,12 @@ data class AgentResponse(
 
 /**
  * Async bidirectional command bus for agent communication.
- * Supports both local execution and remote KYMERA app communication.
+ * Supports both local execution and remote local agent app communication.
  */
 class AgentCommandBus(private val context: Context) {
 
     companion object {
-        // Broadcast actions for KYMERA communication
+        // Broadcast actions for local agent communication
         const val ACTION_AGENT_REQUEST = "dev.kymera.keyboard.AGENT_REQUEST"
         const val ACTION_AGENT_RESPONSE = "dev.kymera.keyboard.AGENT_RESPONSE"
 
@@ -77,7 +77,7 @@ class AgentCommandBus(private val context: Context) {
     // Response listener
     private var responseListener: ((AgentResponse) -> Unit)? = null
 
-    // Broadcast receiver for KYMERA responses
+    // Broadcast receiver for local agent responses
     private val responseReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctx: Context, intent: Intent) {
             if (intent.action == ACTION_AGENT_RESPONSE) {
@@ -125,8 +125,8 @@ class AgentCommandBus(private val context: Context) {
         val deferred = CompletableDeferred<AgentResponse>()
         pendingRequests[request.id] = deferred
 
-        // Send to KYMERA
-        sendToKymera(request)
+        // Send to local agent
+        sendToLocalAgent(request)
 
         // Wait with timeout
         return try {
@@ -176,9 +176,9 @@ class AgentCommandBus(private val context: Context) {
         lastOutput = null
     }
 
-    private fun sendToKymera(request: AgentRequest) {
+    private fun sendToLocalAgent(request: AgentRequest) {
         val intent = Intent(ACTION_AGENT_REQUEST).apply {
-            setPackage("dev.kymera.app")
+            setPackage("dev.goblin.agent")
             putExtra(EXTRA_REQUEST_ID, request.id)
             putExtra(EXTRA_AGENT_ID, request.agentId)
             putExtra(EXTRA_COMMAND, request.command)

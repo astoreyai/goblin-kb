@@ -45,17 +45,17 @@ class ContextDetectorTest {
     }
 
     @Test
-    fun `detectContext returns KYMERA_CHAT for KYMERA package`() {
-        `when`(editorInfo.packageName).thenReturn("dev.kymera.app")
+    fun `detectContext returns AGENT_CHAT for local agent package`() {
+        `when`(editorInfo.packageName).thenReturn("dev.goblin.agent")
         `when`(editorInfo.hintText).thenReturn(null)
 
         val result = detector.detectContext(editorInfo)
-        assertEquals(InputContext.KYMERA_CHAT, result)
+        assertEquals(InputContext.AGENT_CHAT, result)
     }
 
     @Test
-    fun `detectContext returns CODE for KYMERA code hint`() {
-        `when`(editorInfo.packageName).thenReturn("dev.kymera.app")
+    fun `detectContext returns CODE for agent code hint`() {
+        `when`(editorInfo.packageName).thenReturn("dev.goblin.agent")
         `when`(editorInfo.hintText).thenReturn("Enter code here")
 
         val result = detector.detectContext(editorInfo)
@@ -63,8 +63,8 @@ class ContextDetectorTest {
     }
 
     @Test
-    fun `detectContext returns TERMINAL for KYMERA terminal hint`() {
-        `when`(editorInfo.packageName).thenReturn("dev.kymera.app")
+    fun `detectContext returns TERMINAL for agent terminal hint`() {
+        `when`(editorInfo.packageName).thenReturn("dev.goblin.agent")
         `when`(editorInfo.hintText).thenReturn("Terminal input")
 
         val result = detector.detectContext(editorInfo)
@@ -85,7 +85,7 @@ class ContextDetectorTest {
     fun `getPackageContext returns correct context for known packages`() {
         assertEquals(InputContext.TERMINAL, detector.getPackageContext("com.termux"))
         assertEquals(InputContext.CODE, detector.getPackageContext("com.aide.ui"))
-        assertEquals(InputContext.KYMERA_CHAT, detector.getPackageContext("dev.kymera.app"))
+        assertEquals(InputContext.AGENT_CHAT, detector.getPackageContext("dev.goblin.agent"))
         assertNull(detector.getPackageContext("com.unknown.app"))
     }
 }

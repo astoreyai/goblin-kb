@@ -131,8 +131,8 @@ sealed class AgentResult {
     /** Show in popup/overlay */
     data class Display(val content: String, val title: String? = null) : AgentResult()
 
-    /** Send to KYMERA app */
-    data class SendToKymera(val text: String, val type: String) : AgentResult()
+    /** Send to local agent app (fallback when Termux unavailable) */
+    data class SendToLocalAgent(val text: String, val type: String) : AgentResult()
 
     /** Store in memory for later recall */
     data class StoreMemory(val content: String, val key: String? = null) : AgentResult()
